@@ -7,11 +7,11 @@
     <title></title>
     <!-- Metadatos de la página web -->
     <meta charset="utf-8">
-    <meta name="author" content="Daniel Carranza">
+    <meta name="author" content="Drinking Lover">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- IMPORTACIÓN DE RECURSOS EXTERNOS -->
     <!-- Llamada al icono de la página web -->
-    <link type="image/png" rel="icon" href="../../resources/img/icon.png">
+    <link type="image/png" rel="icon" href="../../resources/img/LogoDL blanco.png">
     <!-- Llamada a las hojas de estilos del framework e iconos -->
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
@@ -32,7 +32,21 @@
                 <!-- Se muestra un gráfico con el porcentaje de productos por categoría -->
                 <canvas id="chart2"></canvas>
             </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <!-- Se muestra Top 5 productos mas vendidos -->
+                <canvas id="chart3"></canvas>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <!-- Se muestra Top 5 clientes con mas compras -->
+                <canvas id="chart4"></canvas>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <!-- Se muestra Existencias de un producto -->
+                <canvas id="chart5"></canvas>
+            </div>
+           
         </div>
+
         <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
         <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>
     </main>

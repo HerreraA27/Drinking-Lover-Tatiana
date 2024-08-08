@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la funciones que generan los gráficos en la página web.
     graficoBarrasCategorias();
     graficoPastelCategorias();
+    graficoBarrasTopProductos();
+   
+
 });
 
 /*
@@ -77,3 +80,32 @@ const graficoPastelCategorias = async () => {
         console.log(DATA.error);
     }
 }
+
+
+/*
+*   Función asíncrona para mostrar un gráfico de barras top 5 productos mas vendidos
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const graficoBarrasTopProductos = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATA = await fetchData(PRODUCTO_API, 'topProductosMasVendidos');
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+    if (DATA.status) {
+        // Se declaran los arreglos para guardar los datos a gráficar.
+        let productos = [];
+        let cantidades = [];
+        // Se recorre el conjunto de registros fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se agregan los datos a los arreglos.
+            productos.push(row.nombre_producto);
+            cantidades.push(row.cantidad_vendida);
+        });
+        // Llamada a la función para generar y mostrar un gráfico de barra. Se encuentra en el archivo components.js.
+        barGraph('chart3', productos, cantidades, 'Top 5 Productos Más Vendidos', 'Top 5 Productos Más Vendidos');
+    } else {
+        document.getElementById('carouselChart3').remove();  // Remover el gráfico si no hay datos
+        console.log(DATA.error);
+    }
+}
+
