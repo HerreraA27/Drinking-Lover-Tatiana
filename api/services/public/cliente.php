@@ -23,6 +23,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Correo de usuario indefinido';
                 }
                 break;
+                case 'topClientesPedidos':
+                    if ($result['dataset'] = $cliente->topClientesPedidos()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
@@ -79,6 +86,13 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Cuenta registrada correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al registrar la cuenta';
+                }
+                break;
+            case 'topClientesPedidos':
+                if ($result['dataset'] = $cliente->topClientesPedidos()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No hay datos disponibles';
                 }
                 break;
             case 'logIn':

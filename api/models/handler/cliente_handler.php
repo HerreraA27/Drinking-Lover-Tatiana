@@ -134,4 +134,19 @@ class ClienteHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+    public function topClientesPedidos(){
+        $sql = 'SELECT 
+                CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS nombre_cliente, 
+                COUNT(p.id_pedido) AS cantidad_de_pedidos
+                FROM 
+                    cliente c
+                INNER JOIN 
+                    pedido p ON c.id_cliente = p.id_cliente
+                GROUP BY 
+                    c.id_cliente
+                ORDER BY 
+                    cantidad_de_pedidos DESC
+                LIMIT 5';
+        return Database::getRows($sql);
+    }
 }

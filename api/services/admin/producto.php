@@ -113,8 +113,8 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay datos disponibles';
                 }
                 break;
-                case 'topProductosMasVendidos':
-                    if ($result['dataset'] = $producto->topProductosMasVendidos()) {
+                case 'graficoBarrasTopProductos':
+                    if ($result['dataset'] = $producto->graficoBarrasTopProductos()) {
                         $result['status'] = 1;
                     } else {
                         $result['error'] = 'No hay datos disponibles';

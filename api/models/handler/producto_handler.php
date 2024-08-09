@@ -120,7 +120,7 @@ class ProductoHandler
         return Database::getRows($sql);
     }
 
-    public function topProductosMasVendidos()
+    public function graficoBarrasTopProductos()
     {
         $sql = 'SELECT nombre_categoria, ROUND((COUNT(id_producto) * 100.0 / (SELECT COUNT(id_producto) FROM producto)), 2) porcentaje
                 FROM producto
@@ -128,8 +128,9 @@ class ProductoHandler
                 GROUP BY nombre_categoria ORDER BY porcentaje DESC';
         return Database::getRows($sql);
     }
-    
 
+
+ 
     /*
     *   Métodos para generar reportes.
     */
@@ -143,4 +144,22 @@ class ProductoHandler
         $params = array($this->categoria);
         return Database::getRows($sql, $params);
     }
+    public function reporteVentas($fechaInicio, $fechaFin)
+    {
+        $sql = 'SELECT p.nombre_producto, 
+                       SUM(dp.cantidad_producto) AS cantidad_vendida, 
+                       SUM(dp.precio_producto * dp.cantidad_producto) AS total_ventas,
+                       c.nombre_categoria
+                FROM detalle_pedido dp
+                INNER JOIN producto p ON dp.id_producto = p.id_producto
+                INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+                INNER JOIN pedido ped ON dp.id_pedido = ped.id_pedido
+                WHERE ped.fecha_registro BETWEEN ? AND ?
+                GROUP BY p.id_producto, c.id_categoria
+                ORDER BY total_ventas DESC';
+        
+        $params = array($fechaInicio, $fechaFin);
+        return Database::getRows($sql, $params);
+    }
+    
 }

@@ -1,5 +1,6 @@
 // Constante para completar la ruta de la API.
 const PRODUCTO_API = 'services/admin/producto.php';
+const CLIENTE_API = 'services/public/cliente.php';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     graficoBarrasCategorias();
     graficoPastelCategorias();
     graficoBarrasTopProductos();
+    topClientesPedidos();
+
    
 
 });
@@ -81,7 +84,6 @@ const graficoPastelCategorias = async () => {
     }
 }
 
-
 /*
 *   Función asíncrona para mostrar un gráfico de barras top 5 productos mas vendidos
 *   Parámetros: ninguno.
@@ -89,7 +91,7 @@ const graficoPastelCategorias = async () => {
 */
 const graficoBarrasTopProductos = async () => {
     // Petición para obtener los datos del gráfico.
-    const DATA = await fetchData(PRODUCTO_API, 'topProductosMasVendidos');
+    const DATA = await fetchData(PRODUCTO_API, 'graficoBarrasTopProductos');
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
     if (DATA.status) {
         // Se declaran los arreglos para guardar los datos a gráficar.
@@ -98,14 +100,41 @@ const graficoBarrasTopProductos = async () => {
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se agregan los datos a los arreglos.
-            productos.push(row.nombre_producto);
-            cantidades.push(row.cantidad_vendida);
+            productos.push(row.nombre_categoria);
+            cantidades.push(row.porcentaje);
         });
         // Llamada a la función para generar y mostrar un gráfico de barra. Se encuentra en el archivo components.js.
-        barGraph('chart3', productos, cantidades, 'Top 5 Productos Más Vendidos', 'Top 5 Productos Más Vendidos');
+        barGraph('chart3', productos, cantidades, 'Unidades vendidas', 'Top 5 Productos Más Vendidos');
     } else {
         document.getElementById('carouselChart3').remove();  // Remover el gráfico si no hay datos
         console.log(DATA.error);
     }
 }
 
+
+/*
+*   Función asíncrona para mostrar un gráfico de barras top 5 productos mas vendidos
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const topClientesPedidos = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATA = await fetchData(CLIENTE_API, 'topClientesPedidos');
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+    if (DATA.status) {
+        // Se declaran los arreglos para guardar los datos a gráficar.
+        let productos = [];
+        let cantidades = [];
+        // Se recorre el conjunto de registros fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se agregan los datos a los arreglos.
+            productos.push(row.nombre_cliente);
+            cantidades.push(row.cantidad_de_pedidos);
+        });
+        // Llamada a la función para generar y mostrar un gráfico de barra. Se encuentra en el archivo components.js.
+        barGraph('chart4', productos, cantidades, 'Cantidad de pedidos', 'Top 5 de clientes con mas pedidos');
+    } else {
+        document.getElementById('chart4').remove();  // Remover el gráfico si no hay datos
+        console.log(DATA.error);
+    }
+}
